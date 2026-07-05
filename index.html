@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Алексей & Кристина — 21.08.2026</title>
+  <meta name="description" content="Свадебное приглашение Алексей и Кристина — 21 августа 2026" />
+  <meta property="og:title" content="Алексей & Кристина" />
+  <meta property="og:description" content="21 августа 2026 — приглашаем на нашу свадьбу" />
+  <meta property="og:image" content="assets/photo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="phone">
+    <section class="hero section" id="top">
+      <div class="monogram">А<br><span>К</span></div>
+      <div class="photo oval"><img src="assets/photo.jpg" alt="Алексей и Кристина"></div>
+      <h1>Алексей<br><em>и</em><br>Кристина</h1>
+      <p class="script">Мы женимся!</p>
+      <div class="date-line">21 августа 2026</div>
+      <p class="lead">Будем счастливы разделить с вами этот важный для нас день.</p>
+      <a class="down" href="#calendar">⌄</a>
+      <div class="countdown" aria-label="До свадьбы осталось">
+        <div><b id="d">0</b><span>дней</span></div>
+        <div><b id="h">00</b><span>часов</span></div>
+        <div><b id="m">00</b><span>минут</span></div>
+        <div><b id="s">00</b><span>секунд</span></div>
+      </div>
+      <div class="flowers bottom"></div>
+    </section>
+
+    <section class="section" id="calendar">
+      <h2>Август 2026</h2>
+      <div class="divider">♥</div>
+      <div class="calendar-card">
+        <div class="week"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div>
+        <div class="days" id="days"></div>
+      </div>
+      <div class="add-card">
+        <h3>Добавьте дату</h3>
+        <p>Нажмите на кнопку, чтобы добавить событие в свой календарь</p>
+        <div class="cal-buttons">
+          <a id="googleCal" target="_blank" rel="noopener">Google</a>
+          <a id="icsDownload" download="aleksey-kristina-wedding.ics">Apple</a>
+        </div>
+      </div>
+      <button class="main-btn" id="openRsvp">Подтвердить участие</button>
+    </section>
+
+    <section class="section" id="program">
+      <h2>Программа дня</h2>
+      <div class="divider">♥</div>
+      <div class="timeline">
+        <article><i>💍</i><b>15:00</b><h3>Сбор гостей и церемония</h3><p>Разделим с вами начало нашего особенного дня.</p></article>
+        
+        <article><i>🍽</i><b>16:00</b><h3>Банкет</h3><p>Будем праздновать, танцевать и веселиться.</p></article>
+        <article><i>✨</i><b>23:00</b><h3>Завершение вечера</h3><p>Спасибо, что были с нами в этот день.</p></article>
+      </div>
+    </section>
+
+    <section class="section dress" id="dress">
+      <h2>Дресс-код</h2>
+      <div class="divider">♥</div>
+      <p>Будем рады, если вы поддержите цветовую палитру нашей свадьбы: белый, черный, бежевый и светло-голубой.</p>
+      <div class="palette"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="looks">
+        <div class="look">♕<b>Для дам</b><small>вечерние платья, коктейльные платья, лёгкие ткани</small></div>
+        <div class="look">♔<b>Для господ</b><small>костюм или пиджак, без галстука</small></div>
+      </div>
+    </section>
+
+    <section class="section map-section" id="map">
+      <h2>Места проведения</h2>
+      <div class="divider">♥</div>
+      <div class="place">
+        <b>Сбор гостей и церемония</b><span>г. Оренбург, ул. 60 лет Октября, д. 19</span>
+        <a target="_blank" href="https://yandex.ru/maps/?text=Оренбург%2C%20ул.%2060%20лет%20Октября%2C%2019">Открыть на карте</a>
+      </div>
+      <div class="place">
+        <b>Банкет</b><span>г. Оренбург, ул. 60 лет Октября, д. 19</span>
+        <a target="_blank" href="https://yandex.ru/maps/?text=Оренбург%2C%20ул.%2060%20лет%20Октября%2C%2019">Открыть на карте</a>
+      </div>
+      <div class="mapbox">
+        <iframe title="Карта" src="https://www.openstreetmap.org/export/embed.html?bbox=55.05%2C51.72%2C55.16%2C51.80&layer=mapnik&marker=51.76%2C55.10"></iframe>
+        <div class="pins"><span>г. Оренбург, ул. 60 лет Октября, д. 19</span><span>21 августа 2026</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <form class="rsvp" id="rsvpForm">
+      <button type="button" class="close" id="closeRsvp">×</button>
+      <div class="round-logo">♥</div>
+      <h2>Для подтверждения приглашения введите ваши данные</h2>
+      <label>Имя<input name="name" placeholder="Ваше имя" required></label>
+      <label>Фамилия<input name="surname" placeholder="Ваша фамилия" required></label>
+      <label>Количество гостей<input name="guests" type="number" min="1" max="10" value="1"></label>
+      <label>Ваш телефон<input name="phone" placeholder="+7 (___) ___-__-__"></label>
+      <button class="main-btn" type="submit">✓ Подтвердить</button>
+      <p class="ok" id="ok">Спасибо! Ответ сохранён.</p>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
