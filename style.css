@@ -537,3 +537,17 @@ h2 {
     height: 72px;
   }
 }
+.photo-section{
+    padding:20px 22px;
+}
+
+.photo-full{
+    overflow:hidden;
+    border-radius:28px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+.photo-full img{
+    width:100%;
+    display:block;
+}
