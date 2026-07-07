@@ -1,40 +1,150 @@
-const weddingDate = new Date('2026-08-21T15:00:00+05:00');
-function tick(){
-  let diff = Math.max(0, weddingDate - new Date());
-  const d=Math.floor(diff/864e5); diff-=d*864e5;
-  const h=Math.floor(diff/36e5); diff-=h*36e5;
-  const m=Math.floor(diff/6e4); diff-=m*6e4;
-  const s=Math.floor(diff/1000);
-  document.getElementById('d').textContent=d;
-  document.getElementById('h').textContent=String(h).padStart(2,'0');
-  document.getElementById('m').textContent=String(m).padStart(2,'0');
-  document.getElementById('s').textContent=String(s).padStart(2,'0');
+const weddingDate = new Date("2026-08-21T15:00:00+05:00");
+const weddingDay = 21;
+
+function pad(n) {
+  return String(n).padStart(2, "0");
 }
-setInterval(tick,1000); tick();
 
-const days = document.getElementById('days');
-for(let i=0;i<6;i++) days.appendChild(document.createElement('span')).className='empty';
-for(let i=1;i<=30;i++){const el=document.createElement('span'); el.textContent=i; if(i===12) el.className='active'; days.appendChild(el)}
+function updateCountdown() {
+  const diff = weddingDate - new Date();
 
-const start='20261112T084500Z', end='20261112T200000Z';
-const title=encodeURIComponent('Свадьба Самир и Диана');
-const details=encodeURIComponent('Торжественная регистрация и праздничный банкет');
-const loc=encodeURIComponent('ул. Суздальская, 10 / ул. Суздальская, 12');
-document.getElementById('googleCal').href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}&location=${loc}`;
-const ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Samir Diana Wedding//RU\nBEGIN:VEVENT\nUID:samir-diana-20261112@example.com\nDTSTAMP:20261112T000000Z\nDTSTART:${start}\nDTEND:${end}\nSUMMARY:Свадьба Самир и Диана\nDESCRIPTION:Торжественная регистрация и праздничный банкет\nLOCATION:ул. Суздальская, 10 / ул. Суздальская, 12\nEND:VEVENT\nEND:VCALENDAR`;
-document.getElementById('icsDownload').href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));
+  const d = document.getElementById("d");
+  const h = document.getElementById("h");
+  const m = document.getElementById("m");
+  const s = document.getElementById("s");
 
-const modal=document.getElementById('modal');
-document.getElementById('openRsvp').onclick=()=>modal.classList.add('show');
-document.getElementById('closeRsvp').onclick=()=>modal.classList.remove('show');
-modal.addEventListener('click',e=>{if(e.target===modal) modal.classList.remove('show')});
-document.getElementById('rsvpForm').addEventListener('submit', async e=>{
-  e.preventDefault();
-  // Вставь сюда ссылку Google Apps Script, если нужна отправка в таблицу:
-  const GOOGLE_SCRIPT_URL = '';
-  const data = Object.fromEntries(new FormData(e.target).entries());
-  data.invite = 'Алексей и Кристина'; data.date = '21.08.2026';
-  if(GOOGLE_SCRIPT_URL){ await fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(data)}); }
-  document.getElementById('ok').style.display='block';
-  e.target.reset();
+  if (!d || !h || !m || !s) return;
+
+  if (diff <= 0) {
+    d.textContent = "0";
+    h.textContent = "00";
+    m.textContent = "00";
+    s.textContent = "00";
+    return;
+  }
+
+  d.textContent = Math.floor(diff / 86400000);
+  h.textContent = pad(Math.floor(diff / 3600000) % 24);
+  m.textContent = pad(Math.floor(diff / 60000) % 60);
+  s.textContent = pad(Math.floor(diff / 1000) % 60);
+}
+
+function renderCalendar() {
+  const days = document.getElementById("days");
+  if (!days) return;
+
+  days.innerHTML = "";
+
+  const firstDayOffset = 5; // 1 августа 2026 — суббота
+  const daysInMonth = 31;
+
+  for (let i = 0; i < firstDayOffset; i++) {
+    const empty = document.createElement("span");
+    empty.className = "empty";
+    days.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const span = document.createElement("span");
+    span.textContent = day;
+
+    if (day === weddingDay) {
+      span.className = "active";
+    }
+
+    days.appendChild(span);
+  }
+}
+
+function setupCalendarLinks() {
+  const googleCal = document.getElementById("googleCal");
+  const icsDownload = document.getElementById("icsDownload");
+
+  const title = "Свадьба Алексея и Кристины";
+  const details = "Сбор гостей и церемония в 15:00, банкет в 16:00.";
+  const location = "г. Оренбург, ул. 60 лет Октября, д. 19";
+
+  const start = "20260821T100000Z";
+  const end = "20260821T180000Z";
+
+  if (googleCal) {
+    googleCal.href =
+      "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      "&text=" + encodeURIComponent(title) +
+      "&dates=" + start + "/" + end +
+      "&details=" + encodeURIComponent(details) +
+      "&location=" + encodeURIComponent(location);
+  }
+
+  if (icsDownload) {
+    const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Aleksey Kristina Wedding//RU
+BEGIN:VEVENT
+UID:aleksey-kristina-20260821@example.com
+DTSTAMP:20260821T100000Z
+DTSTART:20260821T100000Z
+DTEND:20260821T180000Z
+SUMMARY:${title}
+DESCRIPTION:${details}
+LOCATION:${location}
+END:VEVENT
+END:VCALENDAR`;
+
+    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+    icsDownload.href = URL.createObjectURL(blob);
+  }
+}
+
+function setupRsvpModal() {
+  const openBtn = document.getElementById("openRsvp");
+  const closeBtn = document.getElementById("closeRsvp");
+  const modal = document.getElementById("modal");
+  const form = document.getElementById("rsvpForm");
+  const ok = document.getElementById("ok");
+
+  if (openBtn && modal) {
+    openBtn.addEventListener("click", () => {
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    });
+  }
+
+  if (closeBtn && modal) {
+    closeBtn.addEventListener("click", () => {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    });
+  }
+
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      if (ok) {
+        ok.style.display = "block";
+      }
+
+      form.reset();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderCalendar();
+  updateCountdown();
+  setupCalendarLinks();
+  setupRsvpModal();
+
+  setInterval(updateCountdown, 1000);
 });
