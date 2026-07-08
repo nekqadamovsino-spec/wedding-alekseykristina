@@ -1,6 +1,7 @@
 const weddingDate = new Date("2026-08-21T15:00:00+05:00");
 const weddingDay = 21;
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwNgw8RAgv7WIxIKs76zvM_W4vbIdXT0n5GOgq6mDBY6tZq8nr1Dc4PEuOqprHC7mWz/exec";
+
 function pad(n) {
   return String(n).padStart(2, "0");
 }
@@ -35,7 +36,7 @@ function renderCalendar() {
 
   days.innerHTML = "";
 
-  const firstDayOffset = 5; // 1 августа 2026 — суббота
+  const firstDayOffset = 5;
   const daysInMonth = 31;
 
   for (let i = 0; i < firstDayOffset; i++) {
@@ -53,47 +54,6 @@ function renderCalendar() {
     }
 
     days.appendChild(span);
-  }
-}
-
-function setupCalendarLinks() {
-  const googleCal = document.getElementById("googleCal");
-  const icsDownload = document.getElementById("icsDownload");
-
-  const title = "Свадьба Алексея и Кристины";
-  const details = "Сбор гостей и церемония в 15:00, банкет в 16:00.";
-  const location = "г. Оренбург, ул. 60 лет Октября, д. 19";
-
-  const start = "20260821T100000Z";
-  const end = "20260821T180000Z";
-
-  if (googleCal) {
-    googleCal.href =
-      "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-      "&text=" + encodeURIComponent(title) +
-      "&dates=" + start + "/" + end +
-      "&details=" + encodeURIComponent(details) +
-      "&location=" + encodeURIComponent(location);
-  }
-
-  if (icsDownload) {
-    const ics =
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Aleksey Kristina Wedding//RU
-BEGIN:VEVENT
-UID:aleksey-kristina-20260821@example.com
-DTSTAMP:20260821T100000Z
-DTSTART:20260821T100000Z
-DTEND:20260821T180000Z
-SUMMARY:${title}
-DESCRIPTION:${details}
-LOCATION:${location}
-END:VEVENT
-END:VCALENDAR`;
-
-    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-    icsDownload.href = URL.createObjectURL(blob);
   }
 }
 
@@ -128,39 +88,37 @@ function setupRsvpModal() {
   }
 
   if (form) {
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const data = {
-      name: form.name.value,
-      surname: form.surname.value,
-      guests: form.guests.value,
-      phone: form.phone.value
-    };
+      const data = {
+        name: form.name.value,
+        surname: form.surname.value,
+        guests: form.guests.value,
+        phone: form.phone.value
+      };
 
-    try {
-  await fetch(WEB_APP_URL, {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(data)
-  });
+      try {
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify(data)
+        });
 
-  ok.style.display = "block";
-  form.reset();
-  alert("Не удалось отправить данные.");
-  console.error(error);
-}
+        if (ok) ok.style.display = "block";
+        form.reset();
 
-    } catch (error) {
-    }
-  });
-}
+      } catch (error) {
+        alert("Не удалось отправить данные.");
+        console.error(error);
+      }
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   renderCalendar();
   updateCountdown();
-  setupCalendarLinks();
   setupRsvpModal();
 
   setInterval(updateCountdown, 1000);
