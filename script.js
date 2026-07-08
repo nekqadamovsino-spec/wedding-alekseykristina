@@ -1,6 +1,6 @@
 const weddingDate = new Date("2026-08-21T15:00:00+05:00");
 const weddingDay = 21;
-
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwNgw8RAgv7WIxIKs76zvM_W4vbIdXT0n5GOgq6mDBY6tZq8nr1Dc4PEuOqprHC7mWz/exec";
 function pad(n) {
   return String(n).padStart(2, "0");
 }
@@ -128,16 +128,40 @@ function setupRsvpModal() {
   }
 
   if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      if (ok) {
+    const data = {
+      name: form.name.value,
+      surname: form.surname.value,
+      guests: form.guests.value,
+      phone: form.phone.value
+    };
+
+    try {
+      const response = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result.result === "success") {
         ok.style.display = "block";
+        form.reset();
+      } else {
+        alert("Ошибка отправки.");
       }
 
-      form.reset();
-    });
-  }
+    } catch (error) {
+      alert("Не удалось отправить данные.");
+      console.error(error);
+    }
+  });
+}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
