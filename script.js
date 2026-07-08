@@ -147,8 +147,6 @@ function setupRsvpModal() {
 
   ok.style.display = "block";
   form.reset();
-
-} catch (error) {
   alert("Не удалось отправить данные.");
   console.error(error);
 }
