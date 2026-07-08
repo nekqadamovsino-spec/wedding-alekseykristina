@@ -139,26 +139,21 @@ function setupRsvpModal() {
     };
 
     try {
-      const response = await fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+  await fetch(WEB_APP_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify(data)
+  });
 
-      const result = await response.json();
+  ok.style.display = "block";
+  form.reset();
 
-      if (result.result === "success") {
-        ok.style.display = "block";
-        form.reset();
-      } else {
-        alert("Ошибка отправки.");
-      }
+} catch (error) {
+  alert("Не удалось отправить данные.");
+  console.error(error);
+}
 
     } catch (error) {
-      alert("Не удалось отправить данные.");
-      console.error(error);
     }
   });
 }
